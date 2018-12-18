@@ -1,0 +1,18 @@
+#!/bin/bash
+
+ALBUM_DIR=/media/jesse/Lexar
+shopt -s extglob
+
+for dir in "$ALBUM_DIR"/!(System*); do  # Iterate over albums
+  COUNTER=1
+  ALBUM=$(basename "$dir")
+  for subdir in "$dir"/*/; do           # Iterate over weird image subdirs
+    cd "$subdir"
+    rm ./!(*.JPG)
+    mv ./*.JPG ../"${ALBUM} PG$(printf "%02d" $COUNTER).jpg"
+    cd ../
+    rm -r "$subdir"
+    # echo ../"${ALBUM}_PG$(printf "%03d" $COUNTER).jpg"
+    let "COUNTER+=1"
+  done
+done
