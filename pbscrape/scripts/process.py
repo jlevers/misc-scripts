@@ -29,9 +29,6 @@ def scrape_images():
     with ThreadPoolExecutor() as executor:
         futures = executor.map(process_line, get_line())
 
-        # for future in as_completed(futures):
-        #     print(future.result())
-
     stop = timeit.default_timer()
     print("Time: ", stop - start)
 
@@ -64,14 +61,6 @@ def process_image(row, url, fpath):
         shutil.copyfileobj(img, f)
     update_record(row, fpath)
 
-    # with requests.session() as s:
-    #     r = s.get(url, stream=True)
-    #     r.raise_for_status()
-    #     if r.status_code == 200:
-    #         with contextlib.closing(open(fpath, 'wb')) as f:
-    #             shutil.copyfileobj(r.raw, f)
-    #         update_record(row, fpath)
-
 
 def process_line(row):
     orig_url = row[1] + "~original"
@@ -81,7 +70,12 @@ def process_line(row):
     path = os.path.join(subdir, name)
 
     if not os.path.exists(subdir):
-        os.makedirs(subdir)
+        try:
+            os.makedirs(subdir)
+        except FileExistsError as e:
+            pass
+        except:
+            raise
 
     if not os.path.isfile(path):    # Don't download the image again if it's already been fetched
         try:
@@ -94,7 +88,7 @@ def process_line(row):
 
 
 if __name__ == "__main__":
-    INPUT_FILE = "../inputs/smalltest.csv"
+    INPUT_FILE = "../inputs/testing.csv"
     OUTPUT_FILE = "../output.csv"
     ERROR_FILE = "../errors.csv"
     IMAGE_DIR = "../images/"

@@ -12,7 +12,6 @@ for dir in "$ALBUM_DIR"/!(System*); do  # Iterate over albums
     mv ./*.JPG ../"${ALBUM} PG$(printf "%02d" $COUNTER).jpg"
     cd ../
     rm -r "$subdir"
-    # echo ../"${ALBUM}_PG$(printf "%03d" $COUNTER).jpg"
     let "COUNTER+=1"
   done
 done
