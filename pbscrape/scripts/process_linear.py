@@ -15,7 +15,7 @@ class Scrape:
 
     # Get rid of old output and error files
     def clean(self):
-        run = input("Are you sure you want to delete " + self.outfile + " and " + self.errfile + "? (Y/N) ")
+        run = input("Are you sure you want to delete " + self.outfile + " and " + self.errfile + "? (y/n) ")
 
         if run.lower() == "y":
             print("Started clean...")
@@ -91,6 +91,6 @@ class Scrape:
 
 
 if __name__ == "__main__":
-    test = Scrape("../inputs/testing.csv", "../outputs/output.csv", "../outputs/errors.csv", "../images/")
+    test = Scrape("../inputs/test-in.csv", "../outputs/output.csv", "../outputs/errors.csv", "../images/")
     test.clean()
     test.scrape()

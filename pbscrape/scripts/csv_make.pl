@@ -1,14 +1,18 @@
 #!/usr/bin/perl
 
+# This script searches $img_dir for images that're listed (by URL) in $in_path.
+# If a given image exists, it gets added to the $out_path CSV, with the same
+# fields as in the $in_path CSV, plus the path to the image in $img_dir.
+
 # Functional interface
 use Text::CSV_XS;
 
-my $in_path = "../inputs/testing.csv";
-my $out_path = "../outputs/new-out.csv";
-my $img_dir = "../images/";
+my $in_path = "../inputs/records.csv";
+my $out_path = "../outputs/new-output-final.csv";
+my $img_dir = "/storage/images/";
 
 unless(-e $out_path) {
-    #Create the out file if it doesn't exist
+    # Create the out file if it doesn't exist
     open my $fc, ">", $out_path;
     close $fc;
 }
@@ -38,7 +42,7 @@ while (my $row = $csv->getline($fh)) {
       $full_path = $img_dir . $subdir . $fname;
 
       if (-e $full_path) {
-        $csv->print($fout, [@$row, $full_path]);
+        $csv->print($fout, [@$row, "/images/" . $subdir . $fname]);
       }
     }
   }
